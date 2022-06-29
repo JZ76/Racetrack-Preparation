@@ -54,10 +54,9 @@ scale = 3
  / | \ 
 0  0  0
 """
-directions = [[-1, 0], [-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1]]
+directions = [[-1, 0], [-1, 1], [0, 1], [1, 1], [-1, -1], [1, 0], [1, -1], [0, -1]]
 
 # ----------------------------------------------------------------------------------------------------------------------
-
 
 def dfs(i, j):
 
@@ -68,36 +67,39 @@ def dfs(i, j):
     qu.put(i * columns + j)
     # this position is visited
     visited[i][j] = 1
+    # this is the place to use scale
+    result_data = [j / scale,
+                   i / scale,
+                   distance_transform[i][j] / scale,
+                   distance_transform[i][j] / scale]
+    writer.writerow(result_data)
 
     # standard DFS structure, while + for + if
     while not qu.empty():
 
         current = qu.get()
 
-        # deserialization, current_y is the modulus because we added j after columns * i
-        # And current_x is integer division but need to round to floor, otherwise an extra 1 will in the current_x
-        current_x = math.floor(current / columns)
-        current_y = math.floor(current % columns)
+        # deserialization, current_x is the modulus because we added j after columns * i
+        # And current_y is integer division but need to round to floor, otherwise an extra 1 will in the current_x
+        current_y = math.floor(current / columns)
+        current_x = math.floor(current % columns)
 
         # iterate through all 8 directions
         for k in range(8):
 
             # calculate the new position after moving to that direction
-            newX = current_x + directions[k][0]
-            newY = current_y + directions[k][1]
+            newY = current_y + directions[k][0]
+            newX = current_x + directions[k][1]
 
             # if it is a white dot AND not seen before
-            if skeleton[newX][newY] and not visited[newX][newY]:
+            if skeleton[newY][newX] and not visited[newY][newX]:
 
-                # serialization and put in the queue
-                qu.put(newX * columns + newY)
-                visited[newX][newY] = 1
-
-                # this is the place to use scale
-                result_data = [newY / scale,
-                               newX / scale,
-                               distance_transform[newX][newY] / scale,
-                               distance_transform[newX][newY] / scale]
+                qu.put(newY * columns + newX)
+                visited[newY][newX] = 1
+                result_data = [newX / scale,
+                               newY / scale,
+                               distance_transform[newY][newX] / scale,
+                               distance_transform[newY][newX] / scale]
                 writer.writerow(result_data)
 
                 # early stop, make sure dfs only go in one direction rather than bidirectional
