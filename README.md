@@ -26,27 +26,31 @@ However, sometimes we don't have GPS data, but we can generate a map by using Li
 
 > Assuming the simulator is running well on your computer, and familiar with the basic usages first
 
-1. For example, you have a racetrack called de-espana.png, and already set as the map in the simulator.   
-2. There is a section of code at the bottom of distance_transform.cpp in the src folder, comment it off.  
-3. catkin_make, and run the simulator. You should see a image.csv file in the simulator root folder (I already uploaded it to this repository for convenience).  
-4. Open map_to_centerline.py, copy de-espana.png and image.csv into the same folder where Centerline_generator.py is.  
-5. Open image.csv file, zoom out, check whether the shape of racetrack matches the shape in the csv file. If not matches, see how many times of rotate 90° can make them match.
-6. Change the number of rotation in line 131 `distance_transform = np.rot90(distance_transform, 2)` in map_to_centerline.py file.   
-7. Run the map_to_centerline.py file, you should see a centerline.png file in the folder.
-8. Due to that the skeletonize algorithm not always output correct centerline, you need to double check the centerline.png.   
+1. For example, you have a racetrack called `de-espana.png`, and already set as the map in the simulator.   
+2. There is a section of code at the bottom of `distance_transform.cpp` in the src folder, comment it off.  
+3. catkin_make, and run the simulator. You should see a `image.csv` file in the simulator root folder (I already uploaded it to this repository for convenience).  
+4. Open `map_to_centerline.py`, copy `de-espana.png` and `image.csv` into the same folder where `Centerline_generator.py` is.  
+5. Open `image.csv` file, zoom out, check whether the shape of racetrack matches the shape in the csv file. If not matches, see how many times of rotate 90° can make them match.
+6. Change the number of rotation in line 131 `distance_transform = np.rot90(distance_transform, 2)` in `map_to_centerline.py` file.   
+7. Run the `map_to_centerline.py` file, you should see a `centerline.png` file in the folder.
+8. Due to that the skeletonize algorithm not always output correct centerline, you need to double check the `centerline.png`.   
 
-Still use the de-espana.png as example, the centerline.png looks like this. Clearly there are two circles which is wrong.    
+Still use the `de-espana.png` as example, the `centerline.png` looks like this. Clearly there are two circles which is wrong.    
 <img width="1901" alt="Screenshot 2000-06-30 at 18 28 12" src="https://user-images.githubusercontent.com/6621970/176740343-f1ed58e0-eaf6-4778-a361-64d11cc0a58c.png">
 
-9. You have to fix the centerline.png manually, by using any software that can edit png file in pixel level, such as Photoshop. Make sure one white pixel can ONLY connect to other two white pixels in a 3\*3 pixel square. I give some examples below, X means white pixel, assuming the center point is always the white pixel  
+9. You have to fix the `centerline.png` manually, by using any software that can edit png file in pixel level, such as Photoshop. Make sure one white pixel can ONLY connect to other two white pixels in a 3\*3 pixel square. I give some examples below, X means white pixel, assuming the center point is always the white pixel  
                                               
        For example, X 0 0     X 0 0     X 0 0       0 0 X     0 0 X     0 X X     0 X 0
                     0 X X     0 X 0     0 X 0       0 X 0     X X 0     0 X 0     X X X
                     0 0 0 ✅  X 0 0 ✅  0 0 X ✅    0 X X ❌  0 0 X ❌  0 X 0 ❌  0 0 0 ❌     
                     
-10. After fix the centerline.png, comment off line 156, 157, 158 in the map_to_centerline.py, and rerun the script.   
-11. Finally, you will see a results.csv in the folder, this will be the input of next part, which is using the [global_racetrajectory_optimization](https://github.com/TUMFTM/global_racetrajectory_optimization).  
+10. After fix the `centerline.png`, comment off line 156, 157, 158 in the `map_to_centerline.py`, and rerun the script.   
+11. Finally, you will see a `results.csv` in the folder, this will be the input of next part, which is using the [global_racetrajectory_optimization](https://github.com/TUMFTM/global_racetrajectory_optimization).  
 
 > Steps below are not related to this repository, but I listed them here as reference.
 
-12. 
+12. After download the code, make sure you can run the code successfully.  
+13. Copy the `results.csv` to `/global_racetrajectory_optimization/inputs/tracks`  
+14. Edit line 45 in `main_globaltraj.py` file to read your `results.csv`   
+15. Run `main_globaltraj.py`, you should get minimum time trajectory waypoints in `outputs` folder called `traj_race_cl.csv`  
+16. If you see an error about spline is crossed, then increase stepsize in line 13, 14, 15 in `global_racetrajectory_optimization/params/racecar.ini`  
