@@ -1,7 +1,7 @@
 # [DISSERTATION] Racetrack-Preparation
 
 
-> This repository is used to pre-process a racetrack, in order to generate a center line csv file which can be used in [another package](https://github.com/TUMFTM/global_racetrajectory_optimization) for calculating minimum time trajectory.   
+> This repository is used to pre-process a racetrack, in order to generate a center line csv file which can be used in another package called [global_racetrajectory_optimization](https://github.com/TUMFTM/global_racetrajectory_optimization) for calculating minimum time trajectory.   
 
 Please feel free to raise topics in Issues section, I will try my best to answer them!    
 
@@ -9,7 +9,7 @@ Please feel free to raise topics in Issues section, I will try my best to answer
 ## Environment
 
 
-Any operating system should work (At least Ubuntu 20.04 and macOS 12.4). Note that not only the requirements.txt in this repository, but also [the requirements.txt in that repository](https://github.com/TUMFTM/global_racetrajectory_optimization/blob/master/requirements.txt) need to be fulfilled.     
+Any operating system should work (At least Ubuntu 20.04 and macOS 12.4). Note that not only the requirements.txt in this repository, but also [the requirements.txt in global_racetrajectory_optimization](https://github.com/TUMFTM/global_racetrajectory_optimization/blob/master/requirements.txt) need to be fulfilled.     
 
 > Sidenote: ~= means recommended, == means must.    
 
@@ -28,12 +28,25 @@ However, sometimes we don't have GPS data, but we can generate a map by using Li
 
 1. For example, you have a racetrack called de-espana.png, and already set as the map in the simulator.   
 2. There is a section of code at the bottom of distance_transform.cpp in the src folder, comment it off.  
-3. catkin_make, and run the simulator. You should see a image.csv file in the simulator root folder.  
+3. catkin_make, and run the simulator. You should see a image.csv file in the simulator root folder (I already uploaded it to this repository for convenience).  
 4. Open map_to_centerline.py, copy de-espana.png and image.csv into the same folder where Centerline_generator.py is.  
 5. Open image.csv file, zoom out, check whether the shape of racetrack matches the shape in the csv file. If not matches, see how many times of rotate 90° can make them match.
 6. Change the number of rotation in line 131 `distance_transform = np.rot90(distance_transform, 2)` in map_to_centerline.py file.   
 7. Run the map_to_centerline.py file, you should see a centerline.png file in the folder.
 8. Due to that the skeletonize algorithm not always output correct centerline, you need to double check the centerline.png.   
 
-Still use the de-espana.png as example, the centerline.png looks like this    
-![centreline](https://user-images.githubusercontent.com/6621970/176739822-273dadf2-5688-4679-8c60-8269b832aff1.png)
+Still use the de-espana.png as example, the centerline.png looks like this. Clearly there are two circles which is wrong.    
+<img width="1901" alt="Screenshot 2000-06-30 at 18 28 12" src="https://user-images.githubusercontent.com/6621970/176740343-f1ed58e0-eaf6-4778-a361-64d11cc0a58c.png">
+
+9. You have to fix the centerline.png manually, by using any software that can edit png file in pixel level, such as Photoshop. Make sure one white pixel can ONLY connect to other two white pixels in a 3\*3 pixel square. I give some examples below, X means white pixel, assuming the center point is always the white pixel  
+                                              
+       For example, X 0 0     X 0 0     X 0 0       0 0 X     0 0 X     0 X X     0 X 0
+                    0 X X     0 X 0     0 X 0       0 X 0     X X 0     0 X 0     X X X
+                    0 0 0 ✅  X 0 0 ✅  0 0 X ✅    0 X X ❌  0 0 X ❌  0 X 0 ❌  0 0 0 ❌     
+                    
+10. After fix the centerline.png, comment off line 156, 157, 158 in the map_to_centerline.py, and rerun the script.   
+11. Finally, you will see a results.csv in the folder, this will be the input of next part, which is using the [global_racetrajectory_optimization](https://github.com/TUMFTM/global_racetrajectory_optimization).  
+
+> Steps below are not related to this repository, but I listed them here as reference.
+
+12. 
