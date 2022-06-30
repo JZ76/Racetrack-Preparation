@@ -24,4 +24,16 @@ However, sometimes we don't have GPS data, but we can generate a map by using Li
 
 ## Pipeline
 
+> Assuming the simulator is running well on your computer, and familiar with the basic usages first
 
+1. For example, you have a racetrack called de-espana.png, and already set as the map in the simulator.   
+2. There is a section of code at the bottom of distance_transform.cpp in the src folder, comment it off.  
+3. catkin_make, and run the simulator. You should see a image.csv file in the simulator root folder.  
+4. Open map_to_centerline.py, copy de-espana.png and image.csv into the same folder where Centerline_generator.py is.  
+5. Open image.csv file, zoom out, check whether the shape of racetrack matches the shape in the csv file. If not matches, see how many times of rotate 90° can make them match.
+6. Change the number of rotation in line 131 `distance_transform = np.rot90(distance_transform, 2)` in map_to_centerline.py file.   
+7. Run the map_to_centerline.py file, you should see a centerline.png file in the folder.
+8. Due to that the skeletonize algorithm not always output correct centerline, you need to double check the centerline.png.   
+
+Still use the de-espana.png as example, the centerline.png looks like this    
+![centreline](https://user-images.githubusercontent.com/6621970/176739822-273dadf2-5688-4679-8c60-8269b832aff1.png)
