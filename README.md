@@ -45,7 +45,7 @@ Still use the `de-espana.png` as example, the `centerline.png` looks like this. 
                     0 0 0 ✅  X 0 0 ✅  0 0 X ✅    0 X X ❌  0 0 X ❌  0 X 0 ❌  0 0 0 ❌     
                     
 10. After fix the `centerline.png`, comment off line 156, 157, 158 in the `map_to_centerline.py`, and rerun the script.   
-11. Finally, you will see a `results.csv` in the folder, this will be the input of next part, which is using the [global_racetrajectory_optimization](https://github.com/TUMFTM/global_racetrajectory_optimization).  
+11. Finally, you will see a `results.csv` in the folder, this will be the input of next part, which is using the [global_racetrajectory_optimization](https://github.com/TUMFTM/global_racetrajectory_optimization). You probably need `scale` to change the width of racetrack to make it more realism.  
 
 > Steps below are not related to this repository, but I listed them here as reference.
 
