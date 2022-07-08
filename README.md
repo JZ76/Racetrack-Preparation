@@ -49,14 +49,14 @@ Still use the `de-espana.png` as example, the `centerline.png` looks like this. 
 
 > Steps below are not related to this repository, but I listed them here as reference.
 
-12. After download the code, make sure you can run the code successfully.  
+12. After download the code, make sure you can run the demo successfully.  
 13. Copy the `results.csv` to `/global_racetrajectory_optimization/inputs/tracks`  
 14. Edit line 45 in `main_globaltraj.py` file to read your `results.csv`   
 15. Run `main_globaltraj.py`, you should get minimum time trajectory waypoints in `outputs` folder called `traj_race_cl.csv`  
-16. If you see an error about spline is crossed, then increase stepsize in line 13, 14, 15 in `global_racetrajectory_optimization/params/racecar.ini`  
+16. If you see an error about **spline is crossed**, then increase stepsize in line 13, 14, 15 in `global_racetrajectory_optimization/params/racecar.ini`  
 
 We will only use three columns in `traj_race_cl.csv`: `x_m`, `y_m`, `psi_rad`  
 `x_m`: x coordinate of this waypoint.   
 `y_m`: y coordinate of this waypoint.  
 `psi_rad`: heading theta to the next waypoint.  
-[This tutorial](https://github.com/JZ76/f1tenth_simulator_two_agents/wiki/How-to-use-Model-Predictive-Control-algorithm) shows how to use `traj_race_cl.csv` file.
+[This tutorial](https://github.com/JZ76/f1tenth_simulator_two_agents/wiki/How-to-use-Model-Predictive-Control-algorithm) shows how to use `traj_race_cl.csv` file in MPC algorithm.
