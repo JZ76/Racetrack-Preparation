@@ -194,4 +194,4 @@ if __name__ == "__main__":
 
                     # early stop, due to the center line is closed, if we find a white dot, and finish whole dfs,
                     # which means we already went through all white dots in skeleton
-                    break
+                    exit(0)
