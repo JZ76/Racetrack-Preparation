@@ -153,7 +153,7 @@ if __name__ == "__main__":
     # if the algorithm failed, you can fix the center line manually, and input again
     # Compare with the section above, the only difference is we don't have to use skeletonize algorithm again
     # image = np.array(Image.open(r"centerline.png").convert('L'))
-    # image[image < 255] = 0
+    # image[image < 220] = 0
     # skeleton = image.astype(bool)
 
 # ----------------------------------------------------------------------------------------------------------------------
